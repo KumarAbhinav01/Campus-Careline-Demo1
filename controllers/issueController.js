@@ -1,5 +1,7 @@
 import Issue from "../models/Issue.js";
 import Student from "../models/Student.js";
+import Staff from "../models/Staff.js";
+import issueMail from "../services/issueMailService.js";
 
 const issueController = {
   createIssue: async (req, res) => {
@@ -38,6 +40,17 @@ const issueController = {
       // Update the student's issues array
       student.issues.push(issue._id);
       await student.save();
+
+      // Get the admin email from the database
+      const admin = await Staff.findOne({ role: "admin" });
+      const adminEmail = admin.email;
+
+      // Send email to the admin with the issue details
+      const emailContent = `An issue has been created with the following details:\n\nIssue Number: ${issueNumber}\nIssue Details: ${issueDetails}\nStatus: ${issue.status}\nAssigned To: ${issue.assigned ? issue.assigned : 'Not assigned'}\nCreated By: ${name}\nEmail: ${email}\nPhone: ${phone}\nDepartment: ${department}\nPlace: ${place}\n\nYou can Check in your dashboard.`;
+      issueMail.sendEmail(adminEmail, "New Issue Created", emailContent);
+
+      const studentEmailContent = `You created an issue with the following details:\n\nIssue Number: ${issueNumber}\nIssue Details: ${issueDetails}\nStatus: ${issue.status}\nAssigned To: ${issue.assigned ? issue.assigned : 'Not assigned'}\nCreated By: ${name}\nEmail: ${email}\nPhone: ${phone}\nDepartment: ${department}\nPlace: ${place}\n\nYou can Check in your dashboard.`;
+      issueMail.sendEmail(student.email, "Your Created Issue Details", studentEmailContent);
 
       res.status(201).json(issue);
     } catch (error) {

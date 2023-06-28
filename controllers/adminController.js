@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import ENV from '../config.js'
 import Staff from "../models/Staff.js";
 import Issue from "../models/Issue.js";
+import Mailer from "../services/mailService.js";
 
 const adminController = {
 
@@ -176,6 +177,17 @@ getAllStaffWithTasks: async (req, res) => {
   
       await staff.save();
       await issue.save();
+
+      const staffemail = staff.email;
+      console.log(staffemail);
+      
+      console.log(issue);
+      // Get the issue details
+      const { issueNumber, issueDetails, status, name, email, phone, department, place } = issue;
+
+      // Send email to the admin with the issue details
+      const emailContent = `An issue has been assigned to you with the following details:\n\nIssue Number: ${issueNumber}\nIssue Details: ${issueDetails}\nStatus: ${status}\nCreated By: ${name}\nEmail: ${email}\nPhone: ${phone}\nDepartment: ${department}\nPlace: ${place}\n\nYou can Check in your dashboard.`;
+      Mailer.sendEmail(staffemail, "New Issue Assigned", emailContent);
   
       res.json({ message: "Issue assigned to staff" });
     } catch (error) {
