@@ -1,5 +1,5 @@
 const config = {
-    baseURL: "http://localhost:3001", // Replace with your actual base URL
+    baseURL: "https://nit-patna-server.onrender.com", // Replace with your actual base URL
   };
   
 export default config;
