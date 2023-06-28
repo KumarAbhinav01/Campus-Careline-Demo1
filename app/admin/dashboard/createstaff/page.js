@@ -34,7 +34,9 @@ const CreateStaffPage = () => {
         setError("");
       
         try {
-          const token = localStorage.getItem("token");
+            if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+                const token = localStorage.getItem("token");
+              }
           const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

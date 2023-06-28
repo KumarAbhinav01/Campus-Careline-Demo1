@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import config from "@/config";
-import toast,{ useToaster } from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 import React from 'react'
@@ -12,7 +11,9 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(()=>{
-    const token = localStorage.getItem("token");
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+      const token = localStorage.getItem("token");
+    }
     if (!token) {
       router.push("/auth");
     }
@@ -38,7 +39,10 @@ export default function DashboardPage() {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token"); // Retrieve the access token from local storage
+      if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+        const token = localStorage.getItem("token");
+      }
+      
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

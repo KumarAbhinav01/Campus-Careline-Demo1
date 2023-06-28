@@ -1,4 +1,6 @@
-import { Fragment } from "react";
+'use client'
+
+import { Fragment, useEffect, useState } from "react";
 import {
   UserIcon,
   HomeIcon,
@@ -14,12 +16,22 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function TopBar({ showNav, setShowNav }) {
+
+  const [userEmail, setUserEmail] = useState("");
+  useEffect(()=>{
+    if (typeof window !== 'undefined') {
+      setUserEmail(localStorage.getItem("staffEmail"));
+    }
+  },[]);
+
   const router = useRouter();
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("staffEmail");
     router.push("/staff");
+    }
   };
 
   return (
@@ -125,7 +137,7 @@ export default function TopBar({ showNav, setShowNav }) {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                {localStorage.getItem("staffEmail")}
+                {userEmail}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
