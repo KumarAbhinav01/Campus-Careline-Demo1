@@ -24,6 +24,8 @@ export default function DashboardPage() {
     issueDetails: "",
     otherIssue: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleInputChange = (e) => {
     setFormData((prevFormData) => ({
@@ -34,6 +36,7 @@ export default function DashboardPage() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+  setIsLoading(true);
 
   try {
     const token = localStorage.getItem("token");
@@ -211,7 +214,7 @@ export default function DashboardPage() {
               type="submit"
               className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
             >
-              Submit
+              {isLoading ? "Submiting..." : "Submit"}
             </button>
           </form>
         </div>

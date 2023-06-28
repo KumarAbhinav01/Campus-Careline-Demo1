@@ -6,15 +6,13 @@ const HomePage = () => {
   return (
     <div className="">
       {/* Header */}
-      <header className="py-4 px-8 z-40 flex justify-between items-center sticky top-0 bg-white shadow z-10">
+      <header className="py-4 px-8 z-40 flex justify-between items-center sticky top-0 bg-white shadoẁ">
         <div className="flex items-center">
           <Image src="/logo.png" alt="NIT Patna Logo" width={50} height={50} />
           <h1 className="text-2xl text-red-600 font-bold ml-4">NIT Patna | राष्ट्रीय प्रौद्योगिकी संस्थान पटना</h1>
         </div>
         <p className="text-sm text-left text-gray-600 hidden sm:block">An Institute of National Importance under Ministry of Education <br />  (Shiksha Mantralaya), Government of India</p>
       </header>
-
-
 
 
       {/* Main Hero Section */}
@@ -29,7 +27,6 @@ const HomePage = () => {
           <Link href="/auth">
             <button className="btn text-white rounded bg-red-500 p-4 btn-primary mt-4">Raise a Complaint</button>
           </Link>
-
         </div>
       </section>
 

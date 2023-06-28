@@ -72,12 +72,12 @@ const LoginPage = () => {
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={handleOtpChange}
-                  className="border border-gray-300 px-3 py-2 rounded-md mb-8 w-full"
+                  className="border border-gray-300 px-3 py-2 rounded-md mb-6 w-full"
                 />
                 <button
                   onClick={handleLogin}
                   disabled={isLoading}
-                  className="bg-red-500 text-white px-4 mt-6 py-2 rounded-md"
+                  className="w-full bg-red-500 text-white px-4 mt-4 py-2 rounded-md"
                 >
                   {isLoading ? "Logging in..." : "Login"}
                 </button>
