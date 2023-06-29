@@ -3,13 +3,14 @@ import Link from "next/link";
 import { HomeIcon, CreditCardIcon, UserIcon } from "@heroicons/react/24/solid";
 import { MdLockPerson, MdCreateNewFolder } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
+    Cookies.remove('token');
+    Cookies.remove('userEmail');
     router.push("/auth");
   };
 

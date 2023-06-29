@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const IssuesPage = () => {
   const [issues, setIssues] = useState([]);
@@ -17,9 +18,7 @@ const IssuesPage = () => {
 
   const fetchIssues = async () => {
     try {
-      if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-        const token = localStorage.getItem("token");
-      }
+        const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -33,7 +32,7 @@ const IssuesPage = () => {
 
   const fetchStaffMembers = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -48,7 +47,7 @@ const IssuesPage = () => {
 
   const handleUpdateStatus = async (issueId, status) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -71,7 +70,7 @@ const IssuesPage = () => {
   const handleAssignStaff = async (issueId, event) => {
     try {
       const selectedStaffId = event.target.value;
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

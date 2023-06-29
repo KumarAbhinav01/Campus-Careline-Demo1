@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -30,10 +31,11 @@ const LoginPage = () => {
       console.log(response.data);
       const token = response.data.token;
       const adminEmail = email;
-      // Store the token in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("adminEmail", adminEmail);
       router.push("/admin/dashboard");
+      // Store the token in Cookies
+      Cookies.set("token", token);
+      Cookies.set("adminEmail", adminEmail);
+      
     } catch (error) {
       setError("Invalid email or password. Please try again.");
     }

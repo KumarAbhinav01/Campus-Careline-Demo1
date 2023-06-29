@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const CreateStaffPage = () => {
     const [name, setName] = useState("");
@@ -34,7 +35,7 @@ const CreateStaffPage = () => {
         setError("");
       
         try {
-          const token = localStorage.getItem("token");
+          const token = Cookies.get("token");
           const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

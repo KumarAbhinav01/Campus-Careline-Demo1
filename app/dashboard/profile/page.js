@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import config from '@/config';
+import Cookies from 'js-cookie';
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState("");
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,19 +20,13 @@ const ProfilePage = () => {
 
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
+    const fetchProfile = async () => {
     try {
-      if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-        const token = localStorage.getItem("token");
-      }
-      
-      const response = await axios.get(`${config.baseURL}/api/users/profile`, {
+      const token = getToken();
+      const response = await axios.get(`${config.baseURL}/api/users/profile`,{
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+            Authorization: `Bearer ${token}`,
+          },
       });
       setProfile(response.data);
       setFormData(response.data);
@@ -38,6 +34,20 @@ const ProfilePage = () => {
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
+  };
+
+    fetchProfile();
+  }, []);
+
+  
+  
+  const getToken = () => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('token='))
+      .split('=')[1];
+
+    return token;
   };
 
   const handleChange = (e) => {
@@ -53,7 +63,7 @@ const ProfilePage = () => {
     try {
       const response = await axios.put(`${config.baseURL}/api/users/profile`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${Cookies.get('token')}`,
         },
       });
       setProfile(response.data);

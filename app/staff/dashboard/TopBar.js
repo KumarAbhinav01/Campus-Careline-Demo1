@@ -14,24 +14,27 @@ import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function TopBar({ showNav, setShowNav }) {
 
   const [userEmail, setUserEmail] = useState("");
   useEffect(()=>{
-    if (typeof window !== 'undefined') {
-      setUserEmail(localStorage.getItem("staffEmail"));
-    }
+    try {
+      const token = Cookies.get("token");
+      if(!token)
+      router.push('/staff');
+      setUserEmail(Cookies.get("staffEmail"));
+    } catch (error) {
+     router.push('/staff'); 
+    } 
   },[]);
 
   const router = useRouter();
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("staffEmail");
+    Cookies.remove("token");
+    Cookies.remove("staffEmail");
     router.push("/staff");
-    }
   };
 
   return (

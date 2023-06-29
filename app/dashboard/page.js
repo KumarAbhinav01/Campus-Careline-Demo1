@@ -9,7 +9,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       router.push("/auth");
     }
@@ -39,7 +39,7 @@ export default function DashboardPage() {
   setIsLoading(true);
 
   try {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -81,6 +81,15 @@ export default function DashboardPage() {
   } catch (error) {
     console.error("Error creating issue:", error);
   }
+};
+
+const getToken = () => {
+  const token = document.cookie
+    .split('; ')
+    .find(row => row.startsWith('token='))
+    .split('=')[1];
+
+  return token;
 };
 
   return (

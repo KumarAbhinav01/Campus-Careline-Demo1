@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -29,10 +30,11 @@ const LoginPage = () => {
       const response = await axios.post(`${config.baseURL}/api/staff/auth`, { email, password });
       const token = response.data.token;
       const staffEmail = email;
-      // Store the token in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("staffEmail", staffEmail);
       router.push("/staff/dashboard");
+      // Store the token in Cookies
+      Cookies.set("token", token);
+      Cookies.set("staffEmail", staffEmail);
+
     } catch (error) {
       setError("Invalid email or password. Please try again.");
     }

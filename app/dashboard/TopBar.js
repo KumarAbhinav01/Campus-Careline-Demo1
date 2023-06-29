@@ -8,6 +8,7 @@ import {
   ChevronDownIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/solid";
+import Cookies from 'js-cookie';
 import { MdLockPerson } from "react-icons/md";
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
@@ -16,28 +17,36 @@ import { useRouter } from "next/navigation";
 
 export default function TopBar({ showNav, setShowNav }) {
 
-  const [userEmail, setUserEmail] = useState("");
-  useEffect(()=>{
-    if (typeof window !== 'undefined') {
-       setUserEmail(localStorage.getItem("staffEmail"));
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    setEmail(getUserEmail());
+  }, []);
+
+  const getUserEmail = () => {
+    try {
+      const email = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('userEmail='))
+        .split('=')[1];
+
+      return email;
+    } catch (error) {
+      router.push('/auth');
     }
-  },[]);
+
+  };
 
   const router = useRouter();
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    router.push("/auth");
-      const item = localStorage.getItem('key')
-    }
+      Cookies.remove('token');
+      Cookies.remove('userEmail');
+      router.push("/auth");
   };
 
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${
-        showNav ? "pl-56" : ""
-      }`}
+      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${showNav ? "pl-56" : ""
+        }`}
     >
       <div className="pl-4 md:pl-16">
         <Bars3CenterLeftIcon
@@ -128,7 +137,7 @@ export default function TopBar({ showNav, setShowNav }) {
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center">
-            <picture>
+              <picture>
                 <img
                   src="/profile.png"
                   className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
@@ -136,7 +145,7 @@ export default function TopBar({ showNav, setShowNav }) {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                {userEmail}
+                {email}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
@@ -180,8 +189,8 @@ export default function TopBar({ showNav, setShowNav }) {
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <div className="flex hover:bg-red-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"  onClick={handleLogout} > 
-                      <MdLockPerson className="h-4 w-4 mr-2" />
+                  <div className="flex hover:bg-red-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center hover:cursor-pointer" onClick={handleLogout} >
+                    <MdLockPerson className="h-4 w-4 mr-2" />
                     <div>
                       <p>Logout</p>
                     </div>

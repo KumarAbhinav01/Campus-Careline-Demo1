@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -43,13 +44,11 @@ const LoginPage = () => {
 
     try {
       const response = await axios.put(`${config.baseURL}/api/auth`, { email, otp });
-      console.log(response.data);
       const token = response.data.token;
       const userEmail = email;
-      // Store the token in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("userEmail", userEmail);
       router.push("/dashboard");
+      Cookies.set("token", token);
+      Cookies.set("userEmail", userEmail);
     } catch (error) {
       setError("Invalid OTP. Please try again.");
     }
@@ -84,7 +83,7 @@ const LoginPage = () => {
               </>
             ) : (
               <>
-                <label for="email" class="text-gray-900 dark:text-gray-900">Enter your Email</label>
+                <label htmlFor="email" className="text-gray-900 dark:text-gray-900">Enter your Email</label>
                 <input
                   type="email"
                   placeholder="Enter Your Institute Email"

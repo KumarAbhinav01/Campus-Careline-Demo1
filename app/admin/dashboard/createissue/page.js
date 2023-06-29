@@ -6,18 +6,17 @@ import config from "@/config";
 import { useRouter } from "next/navigation";
 
 import React from 'react'
+import Cookies from "js-cookie";
 
 export default function DashboardPage() {
   const router = useRouter();
 
-  useEffect(()=>{
-    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-      const token = localStorage.getItem("token");
-    }
+  useEffect(() => {
+    const token = Cookies.get("token");
     if (!token) {
       router.push("/auth");
     }
-  },[]);
+  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -39,10 +38,8 @@ export default function DashboardPage() {
     e.preventDefault();
 
     try {
-      if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-        const token = localStorage.getItem("token");
-      }
-      
+      const token = Cookies.get("token");
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -57,7 +54,7 @@ export default function DashboardPage() {
         place: "",
         issueDetails: "",
       });
-      
+
       alert("Response submitted successfully");
       // Fetch the updated list of issues
     } catch (error) {

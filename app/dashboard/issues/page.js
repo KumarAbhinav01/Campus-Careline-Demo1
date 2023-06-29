@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const IssuesPage = () => {
   const [issues, setIssues] = useState([]);
   const [selectedTab, setSelectedTab] = useState("all");
   const [selectedIssue, setSelectedIssue] = useState(null);
+  const [token, setToken] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -24,9 +26,7 @@ const IssuesPage = () => {
 
   const fetchIssues = async () => {
     try {
-      if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-        const token = localStorage.getItem("token");
-      } 
+      const token = getToken();
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -36,6 +36,15 @@ const IssuesPage = () => {
     } catch (error) {
       console.error("Error fetching issues:", error);
     }
+  };
+  
+  const getToken = () => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('token='))
+      .split('=')[1];
+
+    return token;
   };
 
   const filterIssuesByStatus = (status) => {
@@ -77,7 +86,7 @@ const IssuesPage = () => {
     if (!selectedIssue) return;
     setIsSaving(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`

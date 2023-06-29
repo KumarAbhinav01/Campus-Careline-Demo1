@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "@/config";
+import Cookies from "js-cookie";
 
 const StaffDashboard = () => {
   const [assignedIssues, setAssignedIssues] = useState([]);
@@ -15,7 +16,7 @@ const StaffDashboard = () => {
 
   const fetchAssignedIssues = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = Cookies.get("token");
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
