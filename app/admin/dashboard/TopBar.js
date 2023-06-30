@@ -147,7 +147,7 @@ export default function TopBar({ showNav, setShowNav }) {
           >
             <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm">
               <div className="p-1">
-                <Menu.Item>
+                {/* <Menu.Item>
                   <Link
                     href="/admin/dashboard/createissue"
                     className="flex hover:bg-red-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
@@ -155,7 +155,7 @@ export default function TopBar({ showNav, setShowNav }) {
                     <PencilIcon className="h-4 w-4 mr-2" />
                     Create Issue
                   </Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item>
                   <Link
                     href="/admin/dashboard"
