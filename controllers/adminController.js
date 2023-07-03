@@ -211,6 +211,17 @@ getAllStaffWithTasks: async (req, res) => {
       issue.status = status;
       await issue.save();
 
+      const staffemail = Staff.email;
+      console.log(staffemail);
+      
+      console.log(issue);
+      // Get the issue details
+      const { issueNumber, issueDetails, name, email, phone, department, place } = issue;
+
+      // Send email to the admin with the issue details
+      const emailContent = `Your Issue status has been updated with the following details:\n\nIssue Number: ${issueNumber}\nIssue Details: ${issueDetails}\nStatus: ${status}\nCreated By: ${name}\nEmail: ${email}\nPhone: ${phone}\nDepartment: ${department}\nPlace: ${place}\n\nYou can Check in your dashboard.`;
+      Mailer.sendEmail(email, "Issue Status Updated", emailContent);
+
       res.json({ message: "Issue status updated successfully.", issue });
     } catch (error) {
       console.error("Error updating issue status:", error);
