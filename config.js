@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
-    baseURL: process.env.BASE_URL,   
+    baseURL: process.env.BASE_URL | 'https://campus-careline-demo1.onrender.com',   
 };
   
 export default config;
