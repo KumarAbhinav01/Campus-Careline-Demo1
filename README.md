@@ -1,1 +1,1 @@
-# NIT-PATNA-SERVER
+# Campus Careline | Demo 1 Server
