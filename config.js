@@ -1,7 +1,11 @@
+import dotenv from 'dotenv';
+
+// Load environment variables from the .env file
+dotenv.config();
+
 const config = {
-    baseURL: "https://nit-patna-server.onrender.com", // Replace with your actual base URL
-    
-  };
+    baseURL: process.env.BASE_URL,   
+};
   
 export default config;
   

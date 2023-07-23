@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'NIT Patna',
+  title: 'Campus Careline | Demo 1',
   description: 'Complaint Reporting Portal',
 }
 
